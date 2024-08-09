@@ -19,7 +19,7 @@ NexusChain is a decentralized, AI-powered, quantum-resistant, and interoperable 
 
 To get started with NexusChain, please follow these steps:
 
-1. Clone the repository: git clone https://github.com/KOSASIH/nexus-chain.git
+1. Clone the repository: `git clone https://github.com/KOSASIH/nexus-chain.git`
 2. Build the project: `make build`
 3. Run the platform: `make run`
 

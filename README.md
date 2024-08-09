@@ -53,6 +53,7 @@ To get started with NexusChain, please follow these steps:
 - integration_tests: Integration tests for the platform
 - deployment: Deployment scripts for the platform
 - development: Development tools, including code formatter and analyzer
+- features: advanced features
 
 ## Contributing
 

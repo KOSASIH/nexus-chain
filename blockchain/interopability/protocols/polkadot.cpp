@@ -148,9 +148,9 @@ void Polkadot::broadcastNewBlock(Block block) {
         });
 }
 
-void Polkadot::broadcastNewTransaction(Transaction transaction) {
-    // Create a new packet with the transaction
-    Packet packet(PacketType::NEW_TRANSACTION, transaction);
+void Polkadot::broadcastParachainRegistration(ParachainRegistration registration) {
+    // Create a new packet with the parachain registration
+    Packet packet(PacketType::PARACHAIN_REGISTRATION, registration);
 
     // Serialize the packet
     std::ostringstream oss;
@@ -159,4 +159,86 @@ void Polkadot::broadcastNewTransaction(Transaction transaction) {
 
     // Broadcast the packet to the network
     udp::socket socket(ioService_);
-    socket.async_send_to(oss.str(), udp::
+    socket.async_send_to(oss.str(), udp::endpoint(udp::v4(), 0),
+        [this](boost::system::error_code ec, std::size_t length) {
+            if (ec) {
+                std::cerr << "Error broadcasting parachain registration: " << ec.message() << std::endl;
+            }
+        });
+}
+
+bool Polkadot::verifyBlock(Block block) {
+    // Verify the block's hash
+    if (!block.verifyHash()) {
+        return false;
+    }
+
+    // Verify the block's transactions
+    for (const auto& transaction : block.getTransactions()) {
+        if (!verifyTransaction(transaction)) {
+            return false;
+        }
+    }
+
+    return true;
+}
+
+bool Polkadot::verifyTransaction(Transaction transaction) {
+    // Verify the transaction's hash
+    if (!transaction.verifyHash()) {
+        return false;
+    }
+
+    // Verify the transaction's sender and recipient
+    if (!verifySenderAndRecipient(transaction.getSender(), transaction.getRecipient())) {
+        return false;
+    }
+
+    return true;
+}
+
+bool Polkadot::verifyParachainRegistration(ParachainRegistration registration) {
+    // Verify the parachain registration's hash
+    if (!registration.verifyHash()) {
+        return false;
+    }
+
+    // Verify the parachain registration's parachain and relay chain
+    if (!verifyParachainAndRelayChain(registration.getParachain(), registration.getRelayChain())) {
+        return false;
+    }
+
+    return true;
+}
+
+bool Polkadot::verifySenderAndRecipient(std::string sender, std::string recipient) {
+    // Verify the sender and recipient's addresses
+    if (!verifyAddress(sender) || !verifyAddress(recipient)) {
+        return false;
+    }
+
+    return true;
+}
+
+bool Polkadot::verifyParachainAndRelayChain(Parachain parachain, RelayChain relayChain) {
+    // Verify the parachain and relay chain's addresses
+    if (!verifyAddress(parachain.getAddress()) || !verifyAddress(relayChain.getAddress())) {
+        return false;
+    }
+
+    return true;
+}
+
+bool Polkadot::verifyAddress(std::string address) {
+    // Verify the address's format
+    if (!isValidAddressFormat(address)) {
+        return false;
+    }
+
+    return true;
+}
+
+bool Polkadot::isValidAddressFormat(std::string address) {
+    // Check if the address is a valid Polkadot address
+    return address.size() == 42 && address[0] == '0' && address[1] == 'x';
+}

@@ -67,4 +67,33 @@ class Falcon:
         c = np.concatenate([c, self._hash(m)])
         return c
 
-    def _compute_response(self, sk: Tuple[np.array,
+    def _compute_response(self, sk: Tuple[np.array, ...], r: Tuple[np.array, ...], c: np.array) -> np.array:
+        # Compute the response z
+        z = [self._lattice_reduce(s * c[i] + r[i]) for i, s in enumerate(sk)]
+        return z
+
+    def _compute_verification_key(self, pk: Tuple[np.array, ...], c: np.array) -> np.array:
+        # Compute the verification key vk
+        vk = [self._compute_public_key(pk[i] * c[i]) for i in range(self.k)]
+        return vk
+
+    def _verify_signature(self, vk: np.array, z: np.array, c: np.array, m: bytes) -> bool:
+        # Verify the signature (c, z) using the verification key vk
+        for i in range(self.k):
+            if not self._verify_component(vk[i], z[i], c[i], m):
+                return False
+        return True
+
+    def _verify_component(self, vk: np.array, z: np.array, c: np.array, m: bytes) -> bool:
+        # Verify a single component of the signature
+        h = self._hash(vk * z + c + m)
+        return h == c
+
+    def _lattice_reduce(self, x: np.array) -> np.array:
+        # Reduce the lattice vector x modulo the lattice
+        return x % self.q
+
+    def _hash(self, x: np.array) -> np.array:
+        # Compute the hash of the lattice vector x
+        h = hashlib.sha256(x.tobytes()).digest()
+        return np.frombuffer(h, dtype=np.int64)

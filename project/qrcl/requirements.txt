@@ -43,5 +43,5 @@ sphinx-rtd-theme==0.5.2
 
 # Development dependencies
 pre-commit==2.13.0
-black==21.6b0
+black==24.3.0
 isort==5.9.3

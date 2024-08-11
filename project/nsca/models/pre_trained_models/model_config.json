@@ -1,0 +1,34 @@
+{
+    "contract_analyzer": {
+        "input_shape": [224, 224, 3],
+        "num_classes": 10,
+        "layers": [
+            {"type": "conv2d", "filters": 32, "kernel_size": 3, "activation": "relu"},
+            {"type": "max_pooling2d", "pool_size": 2},
+            {"type": "conv2d", "filters": 64, "kernel_size": 3, "activation": "relu"},
+            {"type": "max_pooling2d", "pool_size": 2},
+            {"type": "conv2d", "filters": 128, "kernel_size": 3, "activation": "relu"},
+            {"type": "max_pooling2d", "pool_size": 2},
+            {"type": "flatten"},
+            {"type": "dense", "units": 128, "activation": "relu"},
+            {"type": "dropout", "rate": 0.2},
+            {"type": "dense", "units": 10, "activation": "softmax"}
+        ]
+    },
+    "contract_optimizer": {
+        "input_shape": [224, 224, 3],
+        "num_classes": 10,
+        "layers": [
+            {"type": "conv2d", "filters": 32, "kernel_size": 3, "activation": "relu"},
+            {"type": "max_pooling2d", "pool_size": 2},
+            {"type": "conv2d", "filters": 64, "kernel_size": 3, "activation": "relu"},
+            {"type": "max_pooling2d", "pool_size": 2},
+            {"type": "conv2d", "filters": 128, "kernel_size": 3, "activation": "relu"},
+            {"type": "max_pooling2d", "pool_size": 2},
+            {"type": "flatten"},
+            {"type": "dense", "units": 128, "activation": "relu"},
+            {"type": "dropout", "rate": 0.2},
+            {"type": "dense", "units": 10, "activation": "softmax"}
+        ]
+    }
+}

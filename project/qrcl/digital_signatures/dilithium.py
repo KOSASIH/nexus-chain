@@ -72,4 +72,32 @@ class Dilithium:
         z = [self._round(self._poly_reduce(s * c[i] + r[i])) for i, s in enumerate(sk)]
         return z
 
-    def _compute_verification_key(self, pk: Tuple[np.array, ...],
+    def _compute_verification_key(self, pk: Tuple[np.array, ...], c: np.array) -> np.array:
+        # Compute the verification key vk
+        vk = [self._compute_public_key(pk[i] * c[i]) for i in range(self.k)]
+        return vk
+
+    def _verify_signature(self, vk: np.array, z: np.array, c: np.array, m: bytes) -> bool:
+        # Verify the signature (c, z) using the verification key vk
+        for i in range(self.k):
+            if not self._verify_component(vk[i], z[i], c[i], m):
+                return False
+        return True
+
+    def _verify_component(self, vk: np.array, z: np.array, c: np.array, m: bytes) -> bool:
+        # Verify a single component of the signature
+        h = self._hash(vk * z + c + m)
+        return h == c
+
+    def _round(self, x: np.array) -> np.array:
+        # Round the coefficients of the polynomial x to the nearest integer
+        return np.round(x)
+
+    def _poly_reduce(self, x: np.array) -> np.array:
+        # Reduce the polynomial x modulo the polynomial ring
+        return x % self.p
+
+    def _hash(self, x: np.array) -> np.array:
+        # Compute the hash of the polynomial x
+        h = hashlib.sha256(x.tobytes()).digest()
+        return np.frombuffer(h, dtype=np.int64)

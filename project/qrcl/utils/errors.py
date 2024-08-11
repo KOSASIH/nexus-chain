@@ -11,3 +11,11 @@ class EncryptionError(QRCLException):
 
 class DecryptionError(QRCLException):
    
+class InvalidKeyError(QRCLException):
+    pass
+
+class InvalidMessageError(QRCLException):
+    pass
+
+class CryptographyError(QRCLException):
+    pass

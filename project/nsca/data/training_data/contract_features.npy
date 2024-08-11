@@ -1,0 +1,11 @@
+import numpy as np
+
+contract_features = np.array([
+    [100, 2, 1, 2, 3, 4, 5, 10],  # contract 1
+    [200, 4, 2, 3, 4, 5, 6, 15],  # contract 2
+    [150, 3, 1, 2, 3, 4, 5, 12],  # contract 3
+    [250, 5, 3, 4, 5, 6, 7, 20],  # contract 4
+    [120, 2, 1, 2, 3, 4, 5, 10],  # contract 5
+    ...
+])
+np.save('contract_features.npy', contract_features)

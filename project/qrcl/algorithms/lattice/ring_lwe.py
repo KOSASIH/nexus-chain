@@ -30,4 +30,14 @@ class RingLWE:
         coeffs = np.random.normal(0, sigma, size=self.n)
         return np.poly1d(coeffs)
 
-    def _mod
+    def _mod(self, poly: np.poly1d, q: int) -> np.poly1d:
+        return poly % self.poly_modulus % q
+
+    def _instantiate(self, n: int, q: int, sigma: float) -> None:
+        self.n = n
+        self.q = q
+        self.sigma = sigma
+        self.poly_modulus = np.poly1d([1] + [0]*(n-1) + [-1])
+
+    def __str__(self) -> str:
+        return f"RingLWE(n={self.n}, q={self.q}, sigma={self.sigma})"

@@ -69,4 +69,32 @@ func (gc *GovernanceClient) VoteOnProposal(proposalID *big.Int, choice int) erro
 	return gc.voting.VoteOnProposal(context.Background(), proposalID, choice)
 }
 
-// GetProposal
+// GetProposal returns a proposal
+func (gc *GovernanceClient) GetProposal(proposalID *big.Int) (*aragon.Proposal, error) {
+	return gc.proposal.GetProposal(context.Background(), proposalID)
+}
+
+// GetVotingResults returns the voting results
+func (gc *GovernanceClient) GetVotingResults(proposalID *big.Int) (*aragon.VotingResults, error) {
+	return gc.voting.GetVotingResults(context.Background(), proposalID)
+}
+
+// ExecuteProposal executes a proposal
+func (gc *GovernanceClient) ExecuteProposal(proposalID *big.Int) error {
+	return gc.dao.ExecuteProposal(context.Background(), proposalID)
+}
+
+// GetDAO returns the DAO
+func (gc *GovernanceClient) GetDAO() (*aragon.DAO, error) {
+	return gc.dao.GetDAO(context.Background())
+}
+
+// GetVoting returns the voting contract
+func (gc *GovernanceClient) GetVoting() (*aragon.Voting, error) {
+	return gc.voting.GetVoting(context.Background())
+}
+
+// GetProposalCount returns the number of proposals
+func (gc *GovernanceClient) GetProposalCount() (*big.Int, error) {
+	return gc.proposal.GetProposalCount(context.Background())
+}

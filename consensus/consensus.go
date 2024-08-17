@@ -49,4 +49,13 @@ func (pow *ProofOfWork) ValidateTransaction(tx chain.Transaction) bool {
 	return pow.checkProofOfWork(hash.Sum(nil))
 }
 
-func (pow *ProofOfWork)
+func (pow *ProofOfWork) checkProofOfWork(hash []byte) bool {
+	var target big.Int
+	target.SetBytes(hash)
+
+	if target.Cmp(&pow.Target) <= 0 {
+		return true
+	}
+
+	return false
+}

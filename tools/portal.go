@@ -53,4 +53,19 @@ func (p *Portal) docsHandler(w http.ResponseWriter, req *http.Request) {
 }
 
 func (p *Portal) tutorialsHandler(w http.ResponseWriter, req *http.Request) {
-	t, err := template.New("tutorials
+	t, err := template.New("tutorials").ParseFiles("templates/tutorials.html")
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+	t.Execute(w, nil)
+}
+
+func (p *Portal) resourcesHandler(w http.ResponseWriter, req *http.Request) {
+	t, err := template.New("resources").ParseFiles("templates/resources.html")
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+	t.Execute(w, nil)
+}

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Tutorials</title>
+</head>
+<body>
+	<h1>Tutorials</h1>
+	<p>This page provides step-by-step guides for using our API.</p>
+	<ul>
+		<li><a href="#getting-started">Getting Started</a></li>
+		<li><a href="#transferring-assets">Transferring Assets</a></li>
+	</ul>
+	<h2 id="getting-started">Getting Started</h2>
+	<p>This tutorial shows you how to get started with our API.</p>
+	<pre><code>curl -X GET \
+  https://api.example.com/balance \
+  -H 'Authorization: Bearer YOUR_API_KEY' \
+  -H 'Content-Type: application/json'</code></pre>
+	<h2 id="transferring-assets">Transferring Assets</h2>
+	<p>This tutorial shows you how to transfer assets between users.</p>
+	<pre><code>curl -X POST \
+  https://api.example.com/transfer \
+  -H 'Authorization: Bearer YOUR_API_KEY' \
+  -H 'Content-Type: application/json' \
+  -d '{"from": "user1", "to": "user2", "amount": 10}'</code></pre>
+</body>
+</html>

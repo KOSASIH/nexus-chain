@@ -1,7 +1,7 @@
 # QRCL Requirements
 
 # Cryptography dependencies
-cryptography==3.4.7
+cryptography==42.0.4
 pycryptodome==3.10.1
 hashlib==1.0.4
 
